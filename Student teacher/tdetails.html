@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Teacher Profile Details</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #6aade8, #284b8a);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #f0f4f9;
+      overflow: hidden;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      width: 100%;
+      max-width: 400px;
+      padding: 30px 35px 40px;
+      text-align: center;
+      animation: fadeInUp 1s ease forwards;
+      position: relative;
+    }
+
+    h2 {
+      font-weight: 700;
+      margin-bottom: 40px;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      letter-spacing: 1.2px;
+      font-size: 1.9rem;
+    }
+
+    img {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 5px solid rgba(255, 255, 255, 0.45);
+      margin-bottom: 25px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+      cursor: default;
+    }
+    img:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    p {
+      margin: 15px 0;
+      font-weight: 500;
+      font-size: 1.1rem;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.15);
+    }
+
+    .profile-info input[type="text"],
+    .profile-info input[type="date"] {
+      padding: 10px 12px;
+      margin-top: 6px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      width: 100%;
+      font-family: 'Poppins', sans-serif;
+      box-shadow: inset 0 0 8px rgba(255 255 255 / 0.25);
+      background: rgba(255 255 255 / 0.12);
+      color: #f0f4f9;
+      transition: box-shadow 0.3s ease;
+    }
+    .profile-info input[type="text"]:focus,
+    .profile-info input[type="date"]:focus {
+      box-shadow: 0 0 12px #76b6ff;
+      backdrop-filter: blur(4px);
+      background: rgba(255 255 255 / 0.25);
+    }
+
+    .btn-group {
+      margin-top: 35px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    button {
+      background: linear-gradient(135deg, #1f4287, #9a8c98);
+      border: none;
+      border-radius: 12px;
+      color: #f0f4f9;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 12px 22px;
+      box-shadow: 0 6px 18px rgba(22, 53, 104, 0.6);
+      transition: all 0.35s ease;
+      min-width: 115px;
+      user-select: none;
+      position: relative;
+      overflow: hidden;
+    }
+    button::after {
+      content: "";
+      position: absolute;
+      top: 0; left: -75%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0.50), rgba(255,255,255,0));
+      transform: skewX(-25deg);
+      transition: all 0.5s ease;
+    }
+    button:hover::after {
+      left: 125%;
+    }
+
+    button:focus {
+      outline: none;
+      box-shadow: 0 0 12px #a2c0ff;
+    }
+
+    .edit-btn {
+      background: linear-gradient(135deg, #0062e0, #0047b3);
+      box-shadow: 0 6px 20px #0047b3cc;
+    }
+    .edit-btn:hover {
+      background: linear-gradient(135deg, #0047b3, #002a6e);
+      box-shadow: 0 8px 25px #002a6ecc;
+    }
+
+    .save-btn {
+      background: linear-gradient(135deg, #1ba07a, #137654);
+      box-shadow: 0 6px 20px #137654cc;
+    }
+    .save-btn:hover {
+      background: linear-gradient(135deg, #137654, #0b4b31);
+      box-shadow: 0 8px 25px #0b4b31cc;
+    }
+
+    .cancel-btn {
+      background: linear-gradient(135deg, #d13434, #8a2323);
+      box-shadow: 0 6px 20px #8a2323cc;
+    }
+    .cancel-btn:hover {
+      background: linear-gradient(135deg, #8a2323, #480f0f);
+      box-shadow: 0 8px 25px #480f0fcc;
+    }
+
+    .students-btn {
+      background: linear-gradient(135deg, #27ae60, #195d33);
+      box-shadow: 0 6px 20px #195d33cc;
+    }
+    .students-btn:hover {
+      background: linear-gradient(135deg, #195d33, #0f2f19);
+      box-shadow: 0 8px 25px #0f2f19cc;
+    }
+
+    .teachers-btn {
+      background: linear-gradient(135deg, #6f42c1, #3b2a75);
+      box-shadow: 0 6px 20px #3b2a75cc;
+    }
+    .teachers-btn:hover {
+      background: linear-gradient(135deg, #3b2a75, #1a1442);
+      box-shadow: 0 8px 25px #1a1442cc;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 450px) {
+      body {
+        padding: 15px 10px;
+      }
+      .container {
+        max-width: 100%;
+        padding: 25px 20px 30px;
+      }
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+      }
+      img {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 20px;
+      }
+      p {
+        font-size: 1rem;
+        margin: 10px 0;
+      }
+      button {
+        min-width: 100px;
+        padding: 10px 18px;
+        font-size: 0.9rem;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container" role="main" aria-label="Teacher Profile Details">
+  <h2>Teacher Profile Details</h2>
+  <div id="details" aria-live="polite" aria-atomic="true">Loading...</div>
+</div>
+
+<script>
+  window.onload = function () {
+    const loggedInId = localStorage.getItem('currentUserId');
+    if (!loggedInId) {
+      alert("Please log in first!");
+      window.location.href = 'log.html';
+      return;
+    }
+
+    const teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+    const teacherProfile = teachers.find(teacher => teacher.id === loggedInId);
+
+    const detailsDiv = document.getElementById('details');
+
+    if (teacherProfile) {
+      displayTeacherDetails(teacherProfile);
+    } else {
+      alert("No profile found for the logged-in Teacher ID.");
+      window.location.href = 'tprofile2.html';
+    }
+  };
+
+  let isEditing = false;
+
+  function displayTeacherDetails(data) {
+    const detailsHTML = `
+      <img src="${data.photoData}" alt="Profile Picture of ${data.name}" />
+      <p><strong>Name:</strong> ${data.name}</p>
+      <p><strong>Date of Birth:</strong> ${formatDisplayDate(data.dob)}</p>
+      <p><strong>Passing Institute:</strong> ${data.institute}</p>
+      <p><strong>Passing Year:</strong> ${data.year}</p>
+      <div class="btn-group">
+        <button class="edit-btn" onclick="editProfile()" aria-label="Edit Profile">Edit</button>
+        <button class="students-btn" onclick="viewStudents()" aria-label="View Students">Students</button>
+        <button class="teachers-btn" onclick="viewTeachers()" aria-label="View Other Teachers">Other Teachers</button>
+      </div>
+    `;
+    const detailsDiv = document.getElementById('details');
+    detailsDiv.style.opacity = 0;
+    detailsDiv.innerHTML = detailsHTML;
+    fadeIn(detailsDiv, 600);
+  }
+
+  function editProfile() {
+    if (isEditing) return;
+
+    isEditing = true;
+
+    const teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+    const teacherProfile = teachers.find(teacher => teacher.id === localStorage.getItem('currentUserId'));
+
+    const editHTML = `
+      <img src="${teacherProfile.photoData}" alt="Profile Picture of ${teacherProfile.name}" />
+      <div class="profile-info" role="form" aria-label="Edit Teacher Profile">
+        <label for="editName"><strong>Name:</strong></label>
+        <input type="text" id="editName" value="${teacherProfile.name}" aria-required="true" />
+        <label for="editDob"><strong>Date of Birth:</strong></label>
+        <input type="date" id="editDob" value="${teacherProfile.dob}" aria-required="true" />
+        <label for="editInstitute"><strong>Passing Institute:</strong></label>
+        <input type="text" id="editInstitute" value="${teacherProfile.institute}" aria-required="true" />
+        <label for="editYear"><strong>Passing Year:</strong></label>
+        <input type="text" id="editYear" value="${teacherProfile.year}" aria-required="true" />
+      </div>
+      <div class="btn-group">
+        <button class="save-btn" onclick="saveChanges()" aria-label="Save Changes">Save Changes</button>
+        <button class="cancel-btn" onclick="cancelEdit()" aria-label="Cancel Edit">Cancel</button>
+      </div>
+    `;
+
+    const detailsDiv = document.getElementById('details');
+    detailsDiv.style.opacity = 0;
+    detailsDiv.innerHTML = editHTML;
+    fadeIn(detailsDiv, 600);
+    document.getElementById('editName').focus();
+  }
+
+  function saveChanges() {
+    const name = document.getElementById('editName').value.trim();
+    const dob = document.getElementById('editDob').value;
+    const institute = document.getElementById('editInstitute').value.trim();
+    const year = document.getElementById('editYear').value.trim();
+
+    if (!name) {
+      alert("Name cannot be empty.");
+      document.getElementById('editName').focus();
+      return;
+    }
+    if (!dob) {
+      alert("Please select a valid Date of Birth.");
+      document.getElementById('editDob').focus();
+      return;
+    }
+    if (!institute) {
+      alert("Institute cannot be empty.");
+      document.getElementById('editInstitute').focus();
+      return;
+    }
+    if (!year || !/^\d{4}$/.test(year)) {
+      alert("Please enter a valid 4-digit Passing Year.");
+      document.getElementById('editYear').focus();
+      return;
+    }
+
+    const teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+    const teacherProfile = teachers.find(teacher => teacher.id === localStorage.getItem('currentUserId'));
+
+    if (teacherProfile) {
+      teacherProfile.name = name;
+      teacherProfile.dob = dob;
+      teacherProfile.institute = institute;
+      teacherProfile.year = year;
+
+      localStorage.setItem('teachers', JSON.stringify(teachers));
+      displayTeacherDetails(teacherProfile);
+      isEditing = false;
+    }
+  }
+
+  function cancelEdit() {
+    const teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+    const teacherProfile = teachers.find(teacher => teacher.id === localStorage.getItem('currentUserId'));
+    displayTeacherDetails(teacherProfile);
+    isEditing = false;
+  }
+
+  function viewStudents() {
+    window.location.href = 'sstore.html';
+  }
+
+  function viewTeachers() {
+    window.location.href = 'tstore1.html';
+  }
+
+  // Utility function for fade in effect
+  function fadeIn(element, duration = 600) {
+    element.style.opacity = 0;
+    let last = +new Date();
+    const tick = function() {
+      element.style.opacity = +element.style.opacity + (new Date() - last) / duration;
+      last = +new Date();
+
+      if (+element.style.opacity < 1) {
+        (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
+      }
+    };
+    tick();
+  }
+
+  // Format date yyyy-mm-dd to a nice readable format e.g. Jan 15, 1995
+  function formatDisplayDate(dateString) {
+    if (!dateString) return '';
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    const dateObj = new Date(dateString);
+    if (isNaN(dateObj)) return dateString;
+    return dateObj.toLocaleDateString(undefined, options);
+  }
+</script>
+
+</body>
+</html>
+

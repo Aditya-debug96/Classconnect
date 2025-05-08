@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Profile Options</title>
+    <style>
+        /* Reset and base */
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #7e57c2 0%, #b39ddb 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Container with fade in and slide up animation */
+        .container {
+            background: rgba(115, 95, 160, 0.9);
+            padding: 45px 40px 50px 40px;
+            border-radius: 24px;
+            box-shadow: 0 12px 34px 0 rgba(89, 59, 152, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 95%;
+            animation: fadeSlideUp 1s ease forwards;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        @keyframes fadeSlideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #e1bee7;
+            margin-bottom: 40px;
+            font-weight: 700;
+            font-size: 2rem;
+            letter-spacing: 1px;
+            text-shadow: 0px 2px 6px rgba(45, 0, 85, 0.7);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            margin: 14px 0;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #673ab7 0%, #9575cd 100%);
+            color: #f3e5f5;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 14px rgba(103, 58, 183, 0.5);
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: "";
+            position: absolute;
+            width: 120%;
+            height: 100%;
+            top: 0;
+            left: -100%;
+            background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: left 0.5s ease;
+            pointer-events: none;
+            border-radius: 14px;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #512da8, #7e57c2);
+            color: #ede7f6;
+            box-shadow: 0 10px 22px rgba(81, 45, 168, 0.8);
+            transform: scale(1.05) translateY(-3px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 420px) {
+            .container {
+                padding: 35px 24px 40px 24px;
+                max-width: 320px;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+                margin-bottom: 30px;
+            }
+
+            button {
+                padding: 14px;
+                font-size: 16px;
+                border-radius: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" role="main" aria-label="Profile options selection">
+    <h2>Select Profile Option</h2>
+    <button onclick="createNewProfile()" aria-label="Create a new profile">Create New Profile</button>
+    <button onclick="accessExistingProfile()" aria-label="Access your existing profile">Access Existing Profile</button>
+</div>
+
+<script>
+    function createNewProfile() {
+        window.location.href = 'sprofile.html';
+    }
+
+    function accessExistingProfile() {
+        const userId = localStorage.getItem('currentUserId');
+        if (!userId) {
+            alert("Please log in first!");
+            window.location.href = 'log.html';
+        } else {
+            window.location.href = 'sdetails.html';
+        }
+    }
+</script>
+
+</body>
+</html>

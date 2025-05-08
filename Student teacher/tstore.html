@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Store Teacher Profiles</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #eae7f2;
+      margin: 0;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      color: #5e4b8a;
+      margin-bottom: 20px;
+      animation: fadeIn 1s;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+      color: #5e4b8a;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="file"],
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    button[type="submit"] {
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #6f2c91;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #5e4b8a;
+      transform: scale(1.05);
+    }
+
+    .profile-card {
+      display: flex;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      gap: 20px;
+      width: 100%;
+      max-width: 600px;
+      opacity: 0;
+      animation: fadeIn 0.5s forwards;
+    }
+
+    .profile-card img {
+      width: 120px;
+      height: 120px;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .profile-info {
+      flex: 1;
+    }
+
+    .profile-info h3 {
+      margin: 0 0 10px;
+      color: #5e4b8a;
+    }
+
+    .profile-info p {
+      margin: 5px 0;
+      color: #555;
+    }
+
+    .profile-info button {
+      margin-top: 10px;
+      margin-right: 10px;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .edit-btn {
+      background-color: #6f2c91;
+      color: white;
+    }
+
+    .delete-btn {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .edit-btn:hover {
+      background-color: #5e4b8a;
+      transform: scale(1.05);
+    }
+
+    .delete-btn:hover {
+      background-color: #c82333;
+      transform: scale(1.05);
+    }
+
+    #profilesContainer {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Store Teacher Profiles</h2>
+
+  <form id="profileForm">
+    <label for="id">ID:</label>
+    <input type="text" id="id" required />
+
+    <label for="photo">Photo:</label>
+    <input type="file" id="photo" accept="image/*" required />
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" required />
+
+    <label for="dob">Date of Birth:</label>
+    <input type="date" id="dob" required />
+
+    <label for="institute">Institute:</label>
+    <input type="text" id="institute" required />
+
+    <label for="year">Passing Year:</label>
+    <input type="text" id="year" required />
+
+    <label for="subject">Subject:</label>
+    <select id="subject" required>
+      <option value="" disabled selected>Select subject</option>
+      <option value="OOPS">OOPS</option>
+      <option value="DSA AND DSA LAB">DSA AND DSA LAB</option>
+      <option value="COMPUTER NETWORKS">COMPUTER NETWORKS</option>
+      <option value="ESSENCE OF INDIAN KNOWLEDGE">ESSENCE OF INDIAN KNOWLEDGE</option>
+      <option value="PSD">PSD</option>
+      <option value="SOFTWARE ENGINEERING">SOFTWARE ENGINEERING</option>
+      <option value="DBMS AND DBMS LAB">DBMS AND DBMS LAB</option>
+      <option value="MINI PROJECT">MINI PROJECT</option>
+    </select>
+
+    <button type="submit">Add Profile</button>
+  </form>
+
+  <div id="profilesContainer"></div>
+
+  <script>
+    document.getElementById('profileForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const id = document.getElementById('id').value.trim();
+      const photo = document.getElementById('photo').files[0];
+      const name = document.getElementById('name').value.trim();
+      const dob = document.getElementById('dob').value.trim();
+      const institute = document.getElementById('institute').value.trim();
+      const year = document.getElementById('year').value.trim();
+      const subject = document.getElementById('subject').value;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const newTeacher = {
+          id,
+          photoData: event.target.result,
+          name,
+          dob,
+          institute,
+          year,
+          subject
+        };
+
+        const teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+        teachers.push(newTeacher);
+        localStorage.setItem('teachers', JSON.stringify(teachers));
+
+        displayProfiles();
+        document.getElementById('profileForm').reset();
+      };
+      reader.readAsDataURL(photo);
+    });
+
+    function displayProfiles() {
+      const container = document.getElementById('profilesContainer');
+      container.innerHTML = '';
+
+      const teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+
+      if (teachers.length === 0) {
+        container.innerHTML = '<p>No teacher profiles stored.</p>';
+        return;
+      }
+
+      teachers.forEach((teacher, index) => {
+        container.innerHTML += `
+          <div class="profile-card" id="teacher-${index}">
+            <img src="${teacher.photoData}" alt="Profile Photo" />
+            <div class="profile-info">
+              <h3>${teacher.name}</h3>
+              <p><strong>ID:</strong> ${teacher.id}</p>
+              <p><strong>DOB:</strong> ${teacher.dob}</p>
+              <p><strong>Institute:</strong> ${teacher.institute}</p>
+              <p><strong>Year:</strong> ${teacher.year}</p>
+              <p><strong>Subject:</strong> ${teacher.subject}</p>
+              <button class="edit-btn" onclick="editProfile(${index})">Edit</button>
+              <button class="delete-btn" onclick="deleteProfile(${index})">Delete</button>
+            </div>
+          </div>`;
+      });
+    }
+
+    function editProfile(index) {
+      const teachers = JSON.parse(localStorage.getItem('teachers'));
+
+      const newName = prompt("Enter new name:", teachers[index].name);
+      const newDob = prompt("Enter new date of birth (YYYY-MM-DD):", teachers[index].dob);
+      const newInstitute = prompt("Enter new institute:", teachers[index].institute);
+      const newYear = prompt("Enter new passing year:", teachers[index].year);
+      const newSubject = prompt("Enter new subject:\n1. OOPS\n2. DSA AND DSA LAB\n3. COMPUTER NETWORKS\n4. ESSENCE OF INDIAN KNOWLEDGE\n5. PSD\n6. SOFTWARE ENGINEERING\n7. DBMS AND DBMS LAB\n8. MINI PROJECT", teachers[index].subject);
+
+      if (newName && newDob && newInstitute && newYear && newSubject) {
+        teachers[index].name = newName;
+        teachers[index].dob = newDob;
+        teachers[index].institute = newInstitute;
+        teachers[index].year = newYear;
+        teachers[index].subject = newSubject;
+
+        localStorage.setItem('teachers', JSON.stringify(teachers));
+        displayProfiles();
+      } else if (newName !== null || newDob !== null || newInstitute !== null || newYear !== null || newSubject !== null) {
+        alert("All fields are required to update.");
+      }
+    }
+
+    function deleteProfile(index) {
+      if (confirm("Are you sure you want to delete this profile?")) {
+        let teachers = JSON.parse(localStorage.getItem('teachers'));
+        teachers.splice(index, 1);
+        localStorage.setItem('teachers', JSON.stringify(teachers));
+        displayProfiles();
+      }
+    }
+
+    window.onload = function() {
+      displayProfiles();
+    };
+  </script>
+
+</body>
+</html>
+

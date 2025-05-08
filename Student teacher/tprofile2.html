@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Teacher Profile</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      overflow-x: hidden;
+      color: #333;
+    }
+
+    /* Container card */
+    .card {
+      background: rgba(255 255 255 / 0.95);
+      max-width: 520px;
+      width: 100%;
+      padding: 40px 35px;
+      border-radius: 18px;
+      box-shadow: 0 14px 30px rgba(106, 17, 203, 0.3);
+      animation: fadeSlideUp 0.8s ease forwards;
+      position: relative;
+    }
+
+    @keyframes fadeSlideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2 {
+      text-align: center;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 32px;
+      color: #6a11cb;
+      user-select: none;
+      text-shadow:
+        0 0 8px rgba(106, 17, 203, 0.7);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #4a3f70;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+
+    /* Inputs styling */
+    input[type="text"],
+    input[type="date"],
+    input[type="file"],
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 2px solid #c3b9e8;
+      font-size: 15px;
+      font-weight: 500;
+      color: #3e2a6a;
+      background: #f3f0fb;
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: inset 0 1px 4px rgba(0,0,0,0.07);
+    }
+
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    input[type="file"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #6a11cb;
+      box-shadow: 0 0 12px #9b59b6;
+      background: #f9f8fe;
+    }
+
+    /* File input customization */
+    input[type="file"] {
+      cursor: pointer;
+    }
+
+    /* Button */
+    button {
+      margin-top: 30px;
+      width: 100%;
+      background: linear-gradient(135deg, #6a11cb, #9b59b6);
+      border: none;
+      border-radius: 16px;
+      padding: 14px 0;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(106, 17, 203, 0.7);
+      transition: background 0.4s ease, transform 0.2s ease, box-shadow 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* Button hover shimmer */
+    button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        rgba(255,255,255,0.4) 0%,
+        rgba(255,255,255,0.7) 50%,
+        rgba(255,255,255,0.4) 100%
+      );
+      transform: skewX(-20deg);
+      transition: left 0.6s ease;
+      z-index: 1;
+    }
+
+    button:hover::before {
+      left: 125%;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #7a33dc, #b15de6);
+      box-shadow: 0 12px 30px rgba(106, 17, 203, 0.9);
+      transform: translateY(-3px);
+      z-index: 2;
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 7px 18px rgba(106, 17, 203, 0.7);
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 480px) {
+      .card {
+        padding: 30px 25px;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+        margin-bottom: 24px;
+      }
+
+      button {
+        font-size: 1rem;
+        padding: 12px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card" role="main" aria-label="Create Teacher Profile Form">
+    <h2>Create Teacher Profile</h2>
+
+    <form id="profileForm" novalidate>
+      <label for="photo">Profile Picture:</label>
+      <input type="file" id="photo" accept="image/*" required aria-required="true" />
+
+      <label for="id">Teacher ID:</label>
+      <input type="text" id="id" required aria-required="true" autocomplete="off" />
+
+      <label for="name">Name:</label>
+      <input type="text" id="name" required aria-required="true" autocomplete="off" />
+
+      <label for="dob">Date of Birth:</label>
+      <input type="date" id="dob" required aria-required="true" />
+
+      <label for="institute">Passing Institute:</label>
+      <input type="text" id="institute" required aria-required="true" autocomplete="off" />
+
+      <label for="year">Passing Year:</label>
+      <input type="text" id="year" required aria-required="true" autocomplete="off" maxlength="4" pattern="\d{4}" title="Please enter a 4-digit year" />
+
+      <label for="subject">Subject:</label>
+      <select id="subject" required aria-required="true">
+        <option value="" disabled selected>Select subject</option>
+        <option value="OOPS">OOPS</option>
+        <option value="DSA AND DSA LAB">DSA AND DSA LAB</option>
+        <option value="COMPUTER NETWORKS">COMPUTER NETWORKS</option>
+        <option value="ESSENCE OF INDIAN KNOWLEDGE">ESSENCE OF INDIAN KNOWLEDGE</option>
+        <option value="PSD">PSD</option>
+        <option value="SOFTWARE ENGINEERING">SOFTWARE ENGINEERING</option>
+        <option value="DBMS AND DBMS LAB">DBMS AND DBMS LAB</option>
+        <option value="MINI PROJECT">MINI PROJECT</option>
+      </select>
+
+      <button type="submit" aria-label="Submit Teacher Profile">Submit</button>
+    </form>
+  </div>
+
+  <script>
+  
+    const form = document.getElementById('profileForm');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Form values
+      const id = document.getElementById('id').value.trim();
+      const photoInput = document.getElementById('photo');
+      const photo = photoInput.files[0];
+      const name = document.getElementById('name').value.trim();
+      const dob = document.getElementById('dob').value;
+      const institute = document.getElementById('institute').value.trim();
+      const year = document.getElementById('year').value.trim();
+      const subject = document.getElementById('subject').value;
+
+      const loggedInId = localStorage.getItem('currentUser Id');
+
+      // Validation
+      if (!photo) {
+        alert('Please select a profile picture.');
+        photoInput.focus();
+        return;
+      }
+
+      if (!id || id !== loggedInId) {
+        alert("The entered Teacher ID does not match your logged-in ID.");
+        document.getElementById('id').focus();
+        return;
+      }
+
+      if (!name) {
+        alert("Please enter your name.");
+ document.getElementById('name').focus();
+        return;
+      }
+
+      if (!dob) {
+        alert("Please select your Date of Birth.");
+        document.getElementById('dob').focus();
+        return;
+      }
+
+      if (!institute) {
+        alert("Please enter Passing Institute.");
+        document.getElementById('institute').focus();
+        return;
+      }
+
+      if (!year || !/^\d{4}$/.test(year)) {
+        alert("Please enter a valid 4-digit Passing Year.");
+        document.getElementById('year').focus();
+        return;
+      }
+
+      if (!subject) {
+        alert("Please select a subject.");
+        document.getElementById('subject').focus();
+        return;
+      }
+
+      // Read the photo file as base64
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const newTeacher = {
+          id,
+          photoData: event.target.result,
+          name,
+          dob,
+          institute,
+          year,
+          subject,
+        };
+
+        // Save to localStorage teachers array or create one
+        const teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+        teachers.push(newTeacher);
+        localStorage.setItem('teachers', JSON.stringify(teachers));
+
+        // Redirect to profile page
+        window.location.href = 'tprofile.html';
+      };
+
+      reader.readAsDataURL(photo);
+    });
+  </script>
+
+</body>
+</html>

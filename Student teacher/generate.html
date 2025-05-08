@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Registration Form</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        /* Reset and base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Container */
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 480px;
+            padding: 40px 35px;
+            color: #f0f0f5;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        /* Floating animated circles in background */
+        .container::before {
+            content: "";
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 160px;
+            height: 160px;
+            background: #ffd6e8;
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: floatUpDown 6s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .container::after {
+            content: "";
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 200px;
+            height: 200px;
+            background: #90caf9;
+            border-radius: 50%;
+            opacity: 0.12;
+            animation: floatUpDown 8s ease-in-out infinite reverse;
+            z-index: 0;
+        }
+
+        /* Heading */
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Form Group */
+        .form-group {
+            margin-bottom: 22px;
+            position: relative;
+            z-index: 1;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 7px;
+            color: #e0e0e8;
+            user-select: none;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.25);
+            color: #fff;
+            box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.15);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        input:focus, select:focus {
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 12px 3px #7983ff;
+            color: #fff;
+        }
+
+        /* Error message */
+        .error {
+            color: #ff6b6b;
+            font-size: 0.85em;
+            margin-top: 5px;
+            font-weight: 500;
+            text-shadow: 0 0 5px rgba(255, 107, 107, 0.6);
+        }
+
+        /* Buttons */
+        button {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1.3px;
+            color: #fff;
+            background: linear-gradient(90deg, #6a7bd2, #8ca6db);
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(108, 126, 234, 0.6);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        button::after {
+            content: '';
+            position: absolute;
+            left: -75px;
+            top: 0;
+            width: 50px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: skewX(-25deg);
+            transition: left 0.5s ease;
+            z-index: 2;
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #8ca6db, #6a7bd2);
+            box-shadow: 0 8px 22px rgba(108, 126, 234, 0.8);
+        }
+
+        button:hover::after {
+            left: 100%;
+        }
+
+        /* Role sections */
+        .role-section {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .role-section.active {
+            display: block;
+        }
+
+        /* Loading & Success messages */
+        .loading,
+        .success {
+            margin-top: 10px;
+            font-weight: 600;
+            text-align: center;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .loading {
+            color: #a3a3f7;
+            animation: blink 1.2s infinite;
+        }
+
+        .success {
+            color: #7ee8fa;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        /* Animations */
+        @keyframes floatUpDown {
+            0%, 100% {
+                transform: translateY(0);
+                opacity: 0.15;
+            }
+            50% {
+                transform: translateY(15px);
+                opacity: 0.22;
+            }
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            } to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 540px) {
+            .container {
+                padding: 30px 25px;
+                border-radius: 20px;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" role="main" aria-label="Registration form container">
+        <h2 tabindex="0">Registration Form</h2>
+
+        <div class="form-group">
+            <label for="roleSelect">Select Role:</label>
+            <select id="roleSelect" onchange="showRoleForm()" aria-required="true" aria-describedby="roleHelp">
+                <option value="" disabled selected>Select Role</option>
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+            </select>
+            <small id="roleHelp" style="color: #cbd2f7; font-size: 0.8rem; user-select:none;">Select your role to display appropriate form</small>
+        </div>
+
+        <!-- Student Form -->
+        <section id="studentForm" class="role-section" aria-hidden="true" role="form" aria-label="Student registration form">
+            <div class="form-group">
+                <label for="studentName">Full Name:</label>
+                <input type="text" id="studentName" required autocomplete="name" placeholder="John Doe" aria-required="true" />
+                <div class="error" id="studentNameError" aria-live="polite"></div>
+            </div>
+            <div class="form-group">
+                <label for="studentRoll">University Roll Number:</label>
+                <input type="text" id="studentRoll" pattern="\d{10}" placeholder="10-digit number" aria-describedby="rollHelp" />
+                <div class="error" id="rollError" aria-live="polite"></div>
+                <small id="rollHelp" style="color: #cbd2f7; font-size: 0.8rem; user-select:none;">Roll number must be exactly 10 digits between 2363050001 and 2363050040</small>
+            </div>
+            <div class="form-group">
+                <label for="studentPassword">Password:</label>
+                <input type="password" id="studentPassword" required autocomplete="new-password" minlength="6" aria-required="true" placeholder="At least 6 characters" />
+                <div class="error" id="passwordError" aria-live="polite"></div>
+            </div>
+        </section>
+
+        <!-- Teacher Form -->
+        <section id="teacherForm" class="role-section" aria-hidden="true" role="form" aria-label="Teacher registration form">
+            <div class="form-group">
+                <label for="teacherName">Full Name:</label>
+                <input type="text" id="teacherName" required autocomplete="name" placeholder="Jane Smith" aria-required="true" />
+                <div class="error" id="teacherNameError" aria-live="polite"></div>
+            </div>
+            <div class="form-group">
+                <label for="teacherId">Teacher ID:</label>
+                <input type="text" id="teacherId" title="Enter a Valid ID" aria-describedby="idHelp" placeholder="E.g. SU123" />
+                <div class="error" id="idError" aria-live="polite"></div>
+                <small id="idHelp" style="color: #cbd2f7; font-size: 0.8rem; user-select:none;">Valid IDs: SU123, AD124, RU125, DE126, SH127</small>
+            </div>
+            <div class="form-group">
+                <label for="teacherPassword">Password:</label>
+                <input type="password" id="teacherPassword" required autocomplete="new-password" minlength="6" aria-required="true" placeholder="At least 6 characters" />
+                <div class="error" id="teacherPasswordError" aria-live="polite"></div>
+            </div>
+        </section>
+
+        <button id="submitBtn" onclick="validateForm()" aria-label="Submit registration form">Submit</button>
+        <div class="loading" id="loading" style="display:none;" aria-live="polite" aria-atomic="true">Loading...</div>
+        <div class="success" id="successMessage" style="display:none;" aria-live="polite"></div>
+    </div>
+
+    <script>
+        const VALID_TEACHER_IDS = ['SU123', 'AD124', 'RU125', 'DE126', 'SH127'];
+
+        function showRoleForm() {
+            const role = document.getElementById('roleSelect').value;
+            document.querySelectorAll('.role-section').forEach(div => {
+                div.classList.remove('active');
+                div.setAttribute('aria-hidden', 'true');
+            });
+            if(role) {
+                const form = document.getElementById(role + 'Form');
+                form.classList.add('active');
+                form.setAttribute('aria-hidden', 'false');
+                clearErrors();
+                clearMessages();
+            }
+        }
+
+        function clearErrors() {
+            document.querySelectorAll('.error').forEach(el => {
+                el.textContent = '';
+            });
+        }
+
+        function clearMessages() {
+            document.getElementById('loading').style.display = 'none';
+            const sm = document.getElementById('successMessage');
+            sm.style.display = 'none';
+            sm.textContent = '';
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        function showSuccess(message) {
+            const sm = document.getElementById('successMessage');
+            sm.textContent = message;
+            sm.style.display = 'block';
+        }
+
+        function validateForm() {
+            const role = document.getElementById('roleSelect').value;
+            let isValid = true;
+            clearErrors();
+            clearMessages();
+
+            if (!role) {
+                alert("Please select a role before submitting.");
+                return;
+            }
+
+            showLoading(true);
+            // Delay actual validation to simulate async action & allow loading animation
+            setTimeout(() => {
+                if(role === 'student') {
+                    const rollNumber = document.getElementById('studentRoll').value.trim();
+                    const studentName = document.getElementById('studentName').value.trim();
+                    const studentPassword = document.getElementById('studentPassword').value;
+
+                    if(!studentName) {
+                        document.getElementById('studentNameError').textContent = 'Please enter student name';
+                        isValid = false;
+                    }
+
+                    if(!/^\d{10}$/.test(rollNumber)) {
+                        document.getElementById('rollError').textContent = 'Roll number must be exactly 10 digits';
+                        isValid = false;
+                    } else {
+                        const num = parseInt(rollNumber, 10);
+                        if(num < 2363050001 || num > 2363050040) {
+                            document.getElementById('rollError').textContent = 'Roll number must be between 2363050001 and 2363050040';
+                            isValid = false;
+                        }
+                    }
+
+                    if(studentPassword.length < 6) {
+                        document.getElementById('passwordError').textContent = 'Password must be at least 6 characters long';
+                        isValid = false;
+                    }
+
+                    if(isValid) {
+                        let studentsData = JSON.parse(localStorage.getItem('studentsData')) || [];
+                        studentsData.push({
+                            name: studentName,
+                            rollNumber: rollNumber,
+                            password: studentPassword
+                        });
+                        localStorage.setItem('studentsData', JSON.stringify(studentsData));
+                        showLoading(false);
+                        showSuccess('Registration successful! Redirecting...');
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 1800);
+                    } else {
+                        showLoading(false);
+                    }
+
+                } else if(role === 'teacher') {
+                    const teacherId = document.getElementById('teacherId').value.trim().toUpperCase();
+                    const teacherName = document.getElementById('teacherName').value.trim();
+                    const teacherPassword = document.getElementById('teacherPassword').value;
+
+                    if(!teacherName) {
+                        document.getElementById('teacherNameError').textContent = 'Please enter teacher name';
+                        isValid = false;
+                    }
+
+                    if(!VALID_TEACHER_IDS.includes(teacherId)) {
+                        document.getElementById('idError').textContent = 
+                            'Invalid Teacher ID. Valid IDs: ' + VALID_TEACHER_IDS.join(', ');
+                        isValid = false;
+                    }
+
+                    if(teacherPassword.length < 6) {
+                        document.getElementById('teacherPasswordError').textContent = 'Password must be at least 6 characters long';
+                        isValid = false;
+                    }
+
+                    if(isValid) {
+                        let teachersData = JSON.parse(localStorage.getItem('teachersData')) || [];
+                        teachersData.push({
+                            name: teacherName,
+                            teacherId: teacherId,
+                            password: teacherPassword
+                        });
+                        localStorage.setItem('teachersData', JSON.stringify(teachersData));
+                        showLoading(false);
+                        showSuccess('Registration successful! Redirecting...');
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 1800);
+                    } else {
+                        showLoading(false);
+                    }
+                }
+            }, 700);
+        }
+    </script>
+</body>
+</html>
+

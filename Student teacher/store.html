@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stored User Data</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
+  <style>
+    /* General reset and base styles */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6a0dad, #b96bd1);
+      color: #fff;
+      min-height: 100vh;
+    }
+    h1, h2 {
+      margin-bottom: 20px;
+      font-weight: 700;
+      color: #f3e5f5;
+      text-align: center;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto 40px;
+      background: linear-gradient(145deg, rgba(255 255 255 / 0.15), rgba(255 255 255 / 0.05));
+      border-radius: 16px;
+      padding: 30px 25px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.2);
+      box-sizing: border-box;
+    }
+    h2 {
+      border-bottom: 3px solid rgba(255, 255, 255, 0.4);
+      padding-bottom: 12px;
+      margin-top: 0;
+      margin-bottom: 30px;
+      color: #d1c4e9;
+    }
+    .record {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 6px 15px rgba(106, 13, 173, 0.35);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #f3e5f5;
+      transition: background-color 0.3s ease;
+    }
+    .record:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+    .record-info {
+      font-family: 'Montserrat', sans-serif;  /* Changed font here */
+      flex: 1 1 60%;
+      min-width: 200px;
+      font-size: 1rem;
+      word-break: break-word;
+      color: #ede7f6;
+    }
+    .record-info span {
+      font-weight: 700;
+      color: #bb86fc;
+      margin-right: 6px;
+    }
+    .record-actions {
+      flex: 1 1 35%;
+      min-width: 140px;
+      margin-top: 8px;
+      text-align: right;
+    }
+    .record-actions button {
+      background: linear-gradient(135deg, #7b2ff7, #f107a3);
+      border: none;
+      color: white;
+      padding: 9px 16px;
+      margin-left: 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(241, 7, 163, 0.45);
+      transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      user-select: none;
+    }
+    .record-actions button:first-child {
+      background: linear-gradient(135deg, #9c27b0, #ba68c8);
+      box-shadow: 0 4px 14px rgba(156, 39, 176, 0.45);
+    }
+    .record-actions button:hover {
+      background: linear-gradient(135deg, #f107a3, #7b2ff7);
+      box-shadow: 0 6px 22px rgba(247, 7, 161, 0.75);
+      transform: scale(1.08);
+      outline: none;
+    }
+    #backButton {
+      display: block;
+      margin: 0 auto;
+      padding: 16px 36px;
+      font-size: 1.2rem;
+      color: white;
+      background: linear-gradient(135deg, #9c27b0, #7b2ff7);
+      border: none;
+      border-radius: 36px;
+      cursor: pointer;
+      box-shadow: 0 8px 28px rgba(123, 47, 247, 0.7);
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.4s ease;
+      user-select: none;
+    }
+    #backButton:hover {
+      background: linear-gradient(135deg, #7b2ff7, #f107a3);
+      transform: scale(1.07);
+      box-shadow: 0 10px 35px rgba(241, 7, 163, 0.9);
+      outline: none;
+    }
+    /* Responsive tweaks */
+    @media (max-width: 480px) {
+      .record-info {
+        flex-basis: 100%;
+        margin-bottom: 12px;
+      }
+      .record-actions {
+        flex-basis: 100%;
+        text-align: left;
+        margin-top: 0;
+      }
+      .record-actions button {
+        margin-left: 0;
+        margin-right: 14px;
+      }
+      #backButton {
+        width: 100%;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Stored User Data</h1>
+
+  <section class="container" aria-label="Student Data">
+    <h2>Students</h2>
+    <div id="studentsData" aria-live="polite" aria-relevant="additions removals"></div>
+    <p id="noStudents" style="display:none; text-align:center; color:#ccc;">No student data available.</p>
+  </section>
+
+  <section class="container" aria-label="Teacher Data">
+    <h2>Teachers</h2>
+    <div id="teachersData" aria-live="polite" aria-relevant="additions removals"></div>
+    <p id="noTeachers" style="display:none; text-align:center; color:#ccc;">No teacher data available.</p>
+  </section>
+
+  <button id="backButton" onclick="redirectToIndex()">Go Back to Index</button>
+
+  <script>
+    function displayUserData() {
+      const studentsData = JSON.parse(localStorage.getItem('studentsData')) || [];
+      const teachersData = JSON.parse(localStorage.getItem('teachersData')) || [];
+
+      const studentsContainer = document.getElementById('studentsData');
+      const noStudentsMsg = document.getElementById('noStudents');
+      const teachersContainer = document.getElementById('teachersData');
+      const noTeachersMsg = document.getElementById('noTeachers');
+
+      if (studentsData.length === 0) {
+        studentsContainer.innerHTML = '';
+        noStudentsMsg.style.display = 'block';
+      } else {
+        noStudentsMsg.style.display = 'none';
+        studentsContainer.innerHTML = studentsData.map((student, index) => `
+          <div class="record" role="region" aria-label="Student record ${index + 1}">
+            <div class="record-info">
+              <span>Name:</span>${escapeHTML(student.name)}<br>
+              <span>Roll Number:</span>${escapeHTML(student.rollNumber)}<br>
+              <span>Password:</span>${escapeHTML(student.password)}
+            </div>
+            <div class="record-actions">
+              <button aria-label="Edit student ${escapeHTML(student.name)}" onclick="editStudent(${index})">Edit</button>
+              <button aria-label="Delete student ${escapeHTML(student.name)}" onclick="deleteStudent(${index})">Delete</button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      if (teachersData.length === 0) {
+        teachersContainer.innerHTML = '';
+        noTeachersMsg.style.display = 'block';
+      } else {
+        noTeachersMsg.style.display = 'none';
+        teachersContainer.innerHTML = teachersData.map((teacher, index) => `
+          <div class="record" role="region" aria-label="Teacher record ${index + 1}">
+            <div class="record-info">
+              <span>Name:</span>${escapeHTML(teacher.name)}<br>
+              <span>Teacher ID:</span>${escapeHTML(teacher.teacherId)}<br>
+              <span>Password:</span>${escapeHTML(teacher.password)}
+            </div>
+            <div class="record-actions">
+              <button aria-label="Edit teacher ${escapeHTML(teacher.name)}" onclick="editTeacher(${index})">Edit</button>
+              <button aria-label="Delete teacher ${escapeHTML(teacher.name)}" onclick="deleteTeacher(${index})">Delete</button>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function editStudent(index) {
+      const studentsData = JSON.parse(localStorage.getItem('studentsData')) || [];
+      const student = studentsData[index];
+      if (!student) return;
+
+      const newName = prompt("Edit Student Name:", student.name);
+      if (newName === null) return;
+
+      const newRollNumber = prompt("Edit Roll Number:", student.rollNumber);
+      if (newRollNumber === null) return;
+
+      const newPassword = prompt("Edit Password:", student.password);
+      if (newPassword === null) return;
+
+      if (!newName.trim() || !newRollNumber.trim() || !newPassword.trim()) {
+        alert("All fields are required.");
+        return;
+      }
+
+      studentsData[index] = { name: newName.trim(), rollNumber: newRollNumber.trim(), password: newPassword.trim() };
+      localStorage.setItem('studentsData', JSON.stringify(studentsData));
+      displayUserData();
+    }
+
+    function deleteStudent(index) {
+      if (!confirm("Are you sure you want to delete this student?")) return;
+      const studentsData = JSON.parse(localStorage.getItem('studentsData')) || [];
+      studentsData.splice(index, 1);
+      localStorage.setItem('studentsData', JSON.stringify(studentsData));
+      displayUserData();
+    }
+
+    function editTeacher(index) {
+      const teachersData = JSON.parse(localStorage.getItem('teachersData')) || [];
+      const teacher = teachersData[index];
+      if (!teacher) return;
+
+      const newName = prompt("Edit Teacher Name:", teacher.name);
+      if (newName === null) return;
+
+      const newTeacherId = prompt("Edit Teacher ID:", teacher.teacherId);
+      if (newTeacherId === null) return;
+
+      const newPassword = prompt("Edit Password:", teacher.password);
+      if (newPassword === null) return;
+
+      if (!newName.trim() || !newTeacherId.trim() || !newPassword.trim()) {
+        alert("All fields are required.");
+        return;
+      }
+
+      teachersData[index] = { name: newName.trim(), teacherId: newTeacherId.trim(), password: newPassword.trim() };
+      localStorage.setItem('teachersData', JSON.stringify(teachersData));
+      displayUserData();
+    }
+
+    function deleteTeacher(index) {
+      if (!confirm("Are you sure you want to delete this teacher?")) return;
+      const teachersData = JSON.parse(localStorage.getItem('teachersData')) || [];
+      teachersData.splice(index, 1);
+      localStorage.setItem('teachersData', JSON.stringify(teachersData));
+      displayUserData();
+    }
+
+    function redirectToIndex() {
+      window.location.href = "index.html";
+    }
+
+    // Escape HTML to prevent injection attacks
+    function escapeHTML(str) {
+      return str.replace(/[&<>"'`=\/]/g, function (s) {
+        return ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;',
+          '`': '&#96;',
+          '=': '&#61;',
+          '/': '&#47;'
+        })[s];
+      });
+    }
+
+    // Initialize
+    displayUserData();
+  </script>
+
+</body>
+</html>
+

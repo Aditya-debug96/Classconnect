@@ -1,0 +1,220 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tripura Institute of Technology - Main Page</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
+        /* Reset and base */
+        * {
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Poppins', Arial, sans-serif;
+            overflow: hidden; /* no scroll */
+        }
+
+        /* Background with overlay */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: 
+                linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.7)),
+                url('TIT.png') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            text-align: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        /* Header container for logo and name */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeSlideDown 1.5s forwards ease;
+        }
+
+        .header img {
+            width: 80px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(255 255 255 / 0.6);
+            transform: scale(0.95);
+            animation: logoPulse 3s infinite ease-in-out;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+            text-shadow: 0 1px 8px rgba(0,0,0,0.7);
+            margin: 0;
+            user-select: none;
+        }
+
+        /* Buttons container */
+        .container {
+            background: rgba(255 255 255 / 0.15);
+            padding: 25px 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90vw;
+            max-width: 320px;
+            opacity: 0;
+            animation: fadeSlideUp 1.2s 1s forwards ease;
+        }
+
+        /* Buttons styling */
+        .option {
+            display: block;
+            width: 100%;
+            margin: 12px 0;
+            padding: 15px 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            background-color: #007bff;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 14px rgba(0,123,255,0.4);
+            user-select: none;
+            outline-offset: 3px;
+            outline-color: transparent;
+        }
+
+        .option.generate {
+            background-color: #28a745;
+            box-shadow: 0 4px 14px rgba(40,167,69,0.5);
+        }
+        .option.generate:hover {
+            background-color: #1e7e34;
+            box-shadow: 0 6px 20px rgba(30,126,52,0.6);
+            transform: scale(1.07);
+        }
+
+        .option.login {
+            background-color: #007bff;
+        }
+        .option.login:hover {
+            background-color: #0056b3;
+            box-shadow: 0 6px 20px rgba(0,86,179,0.6);
+            transform: scale(1.07);
+        }
+
+        .option.admin {
+            background-color: #6610f2;
+            box-shadow: 0 4px 14px rgba(102,16,242,0.5);
+        }
+        .option.admin:hover {
+            background-color: #4b0db8;
+            box-shadow: 0 6px 20px rgba(75,13,184,0.7);
+            transform: scale(1.07);
+        }
+
+        /* Animations */
+        @keyframes fadeSlideDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes logoPulse {
+            0%, 100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 15px rgba(255 255 255 / 0.6);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 30px rgba(255 255 255 / 0.9);
+            }
+        }
+
+        /* Responsive tweaks to ensure no scroll and fit in small screen */
+        @media (max-height: 600px) {
+            .header h1 {
+                font-size: 1.75rem;
+            }
+            .header img {
+                width: 65px;
+            }
+            .option {
+                font-size: 1rem;
+                padding: 12px 0;
+            }
+            .container {
+                max-width: 280px;
+                padding: 20px 25px;
+            }
+        }
+
+        @media (max-width: 350px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                max-width: 100%;
+            }
+            .option {
+                font-size: 1rem;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .header img {
+                width: 55px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header" role="banner" aria-label="College Logo and Name">
+        <img src="TIT2.png" alt="" />
+        <h1>TRIPURA INSTITUTE OF TECHNOLOGY</h1>
+    </header>
+
+    <main class="container" role="main">
+        <button class="option login" aria-label="Log In" onclick="window.location.href='log.html'">Log In</button>
+        <button class="option generate" aria-label="Generate ID" onclick="window.location.href='generate.html'">Generate ID</button>
+        <button class="option admin" aria-label="Admin Login" onclick="window.location.href='admin.html'">Admin Login</button>
+    </main>
+</body>
+</html>
+
+
+
